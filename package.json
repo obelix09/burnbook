@@ -1,0 +1,19 @@
+{
+  "name": "burnbook",
+  "version": "1.0.0",
+  "description": "nosql injection",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/obelix09/burnbook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/obelix09/burnbook/issues"
+  },
+  "homepage": "https://github.com/obelix09/burnbook#readme"
+}
