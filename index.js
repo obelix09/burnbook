@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const burnbookService = require('./services/blackbookService');
+const burnbookService = require('./services/burnbookService');
 const path = require('path');
 
 app.use(bodyParser.json());
@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 // http://localhost:3000/api/gossip [GET]
 app.get('/api/gossip', async function(req, res) {
   const result = await burnbookService.getAllGossip();
+  console.log("blob");
   return res.json(result);
 });
 

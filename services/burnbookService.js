@@ -1,14 +1,15 @@
 const db = require('../data/db');
 
-const blackbookService = () => {
+const burnbookService = () => {
     const getAllGossip = async () => {
         const result = await db.Gossip.find({});
+        console.log("blob1");
         return result
     };
 
-    return {
+    return { 
         getAllGossip
     };
 };
 
-module.exports = blackbookService();
+module.exports = burnbookService();
