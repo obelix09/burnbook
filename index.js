@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const burnbookService = require('./services/index');
+const burnbookService = require('./services/blackbookService');
 const path = require('path');
 
 app.use(bodyParser.json());

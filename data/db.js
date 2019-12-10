@@ -9,6 +9,6 @@ const connection = mongoose.createConnection(connectionString, {
 });
 
 module.exports = {
-    Plastic: connection.model('Plastics', plasticSchema),
-    Gossip: connection.model('Gossips', gossipSchema) 
+    Plastic: connection.model('Plastic', plasticSchema),
+    Gossip: connection.model('Gossip', gossipSchema) 
 };
