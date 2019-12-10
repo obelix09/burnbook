@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/obelix09/burnbook/issues"
   },
-  "homepage": "https://github.com/obelix09/burnbook#readme"
+  "homepage": "https://github.com/obelix09/burnbook#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.4.0",
+    "mongoose": "^5.8.0"
+  }
 }
