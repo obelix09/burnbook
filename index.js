@@ -9,28 +9,26 @@ app.use(bodyParser.json());
 // http://localhost:3000/api/gossip [GET]
 app.get('/api/gossip', async function(req, res) {
   const result = await burnbookService.getAllGossip();
-  console.log("blob");
   return res.json(result);
 });
 
 // http://localhost:3000/api/gossip [POST]
-// app.post('/api/gossip', function(req, res) {
-//   ufoService.createNewUfo(req.body, function(ufo) {
-//     return res.status(201).json(ufo);
-//   }, function(err) {
-//     return res.status(400).json(err);
-//   });
-// });
+app.post('/api/gossip', async function(req, res) {
+  const result = await burnbookService.createGossip(req.body);
+  return res.status(201).json(result);
+});
 
-// // http://localhost:3000/api/gossip/ [DELETE]
-// app.delete('/api/gossip', function(req, res) {
-//   const ufoId = req.params.ufoId;
-//   ufoService.deleteUfo(ufoId, function() {
-//     return res.status(204).send();
-//   }, function(err) {
-//     return res.status(400).json(err);
-//   });
-// });
+// http://localhost:3000/api/gossip/ [DELETE]
+app.delete('/api/gossip', async function(req, res) {
+  const result = await burnbookService.deleteAllGossip();
+  return res.status(201).json(result);
+});
+
+// http://localhost:3000/api/login/ [POST]
+app.post('/api/login', async function(req, res) {
+  const result = await burnbookService.login(req.body);
+  return res.json(result);
+});
 
 // http://localhost:3000
 app.listen(3000, function() {
