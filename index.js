@@ -15,6 +15,7 @@ app.get('/', async function(req, res) {
 app.get('/api/gossip', async function(req, res) {
   var query = req.query 
   if (Object.keys(query)[0] == "name") {
+    console.log("well hello there")
     const result = await burnbookService.getGossipByName(query.name);
     return res.json(result);
   } 

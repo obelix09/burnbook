@@ -11,9 +11,10 @@ const burnbookService = () => {
         return result
     };
 
-    const getGossipByName = async (name) => {
-        console.log(name)
-        const result = await db.Gossip.find({name: name})
+    const getGossipByName = async (dbname) => {
+        console.log("wtf is this " + dbname)
+        const result = await db.Gossip.find({name: dbname})
+        console.log("results are in" + result)
         return result
     }
 
