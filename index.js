@@ -6,8 +6,18 @@ const path = require('path');
 
 app.use(bodyParser.json());
 
+//HTML random nickname site
+app.get('/', async function(req, res) {
+  return res.sendFile(path.join(__dirname+'/index.html'));
+});
+
 // http://localhost:3000/api/gossip [GET]
 app.get('/api/gossip', async function(req, res) {
+  var query = req.query 
+  if (Object.keys(query)[0] == "name") {
+    const result = await burnbookService.getGossipByName(query.name);
+    return res.json(result);
+  } 
   const result = await burnbookService.getAllGossip();
   return res.json(result);
 });
@@ -30,7 +40,7 @@ app.post('/api/login', async function(req, res) {
   return res.json(result);
 });
 
-// http://localhost:3000
-app.listen(3000, function() {
-  console.log('Server is listening on port 3000');
+// http://localhost:5000
+app.listen(5000, function() {
+  console.log('Server is listening on port 5000');
 });

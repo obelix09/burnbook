@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <title>Burn Book</title>
         <style>
             .center {
@@ -16,16 +17,35 @@
     </head>
     <body>
         <div class="center">
-            <h1 id="random" class="huge">Gossip</h1>
-        </div>
-        <div class="center">
             <img src="http://images.hellogiggles.com/uploads/2015/03/26/burnbook.jpg" alt="GreBoi">
-            <h3>Search by name</h3>>
+            <h3>Search by name</h3>
             <input type="search" name="name">
             <input type="submit">
+            <table id="table" border="1">
+                <tr>
+                    <th>Name</th>
+                    <th>Gossip</th> 
+                </tr>
+            </table>
         </div>
 
         <script>
+            $(document).ready(function() {
+                const Url = "http://localhost:5000/api/gossip"
+                function getAllGossip() {
+                    fetch(Url)
+                    .then(data=>{return data.json()})
+                    .then(res=>{
+                        console.log(res[0].name)
+                        for (var i = 0; i < res.length; i++) {
+                            var tablerow = "<tr><td>" + res[i].name + "</td><td>" + res[i].gossip + "</td></tr>";
+                            $('#table').append(tablerow);
+                        } 
+                    })
+                }
+
+                getAllGossip()
+            })
         </script>
     </body>
 </html>
