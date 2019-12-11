@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Burn Book</title>
+    <style>
+        .center {
+            margin: auto;
+            width: 60%;
+            padding: 100px;
+            text-align: center;
+        }
+
+        .huge {
+            font-size: 500%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center">
+        <img src="http://images.hellogiggles.com/uploads/2015/03/26/burnbook.jpg" alt="GreBoi">
+        <h3>Login</h3>
+        <form>
+            username:<br>
+            <input type="text" name="username" id="username"><br>
+            Password:<br>
+            <input type="text" name="password" id="password">
+            <input id="loginButton" value="Submit" type="button">
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            $("#loginButton").click(async function () {
+                var username = $('#username').val();
+                var password = $('#password').val();
+                if (username == "" || password == "") {
+                    return
+                }
+                let user = {
+                    name: username,
+                    pass: password
+                }
+                let rawResponse;
+                    (async () => {
+                        rawResponse = await fetch('http://localhost:3000/api/login', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(user)
+                        });
+                        const content = await rawResponse.json();
+
+                        console.log(content);
+                    })();
+            })
+        })
+    </script>
+</body>
+
+</html>

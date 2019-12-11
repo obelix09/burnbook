@@ -11,6 +11,17 @@ app.get('/', async function(req, res) {
   return res.sendFile(path.join(__dirname+'/index.html'));
 });
 
+// http://localhost:3000/api/login [GET]
+app.get('/api/login', async function(req, res) {
+  return res.sendFile(path.join(__dirname+'/login.html'));
+});
+
+// http://localhost:3000/api/login [POST]
+app.post('/api/login', async function(req, res){
+  console.log("halló");
+  return res.status(201).json({bla: "bla"});
+});
+
 // http://localhost:3000/api/gossip [GET]
 app.get('/api/gossip', async function(req, res) {
   var query = req.query 
@@ -35,11 +46,6 @@ app.delete('/api/gossip', async function(req, res) {
   return res.status(201).json(result);
 });
 
-// http://localhost:3000/api/login/ [POST]
-app.post('/api/login', async function(req, res) {
-  const result = await burnbookService.login(req.body);
-  return res.json(result);
-});
 
 // http://localhost:5000
 app.listen(5000, function() {
