@@ -1,14 +1,18 @@
-const mongoose = require('mongoose');
+const mongoDb = require('mongodb');
+const MongoClient = mongoDb.MongoClient;
 const connectionString = 'mongodb+srv://dbUser:xoxogossip@cluster0-xxx9b.mongodb.net/BurnBook?retryWrites=true&w=majority';
-const plasticSchema = require('../schemas/plastic');
-const gossipSchema = require('../schemas/gossip');
 
-const connection = mongoose.createConnection(connectionString, {
+
+const connection = MongoClient.connect(connectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
+},function(err, client) {
+    if(err) {throw new Error(err);}
+    const db = client.db('BurnBook');
+    const gossips = db.collection('gossips')
+}
+);
 
 module.exports = {
-    Plastic: connection.model('Plastics', plasticSchema),
-    Gossip: connection.model('Gossips', gossipSchema) 
+    db: connection.client.db('BurnBook'),
 };
