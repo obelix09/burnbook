@@ -45,12 +45,6 @@
                     password: password
                 }
                 getRequest(user);
-
-                    // .then(function(response) {
-                    //     response.json();
-                    // }).then(function(data) {
-                    //     console.log(data);
-                    // });
             });
             const getRequest = async (user) => {
                 const response = await fetch('http://localhost:5000/api/login', {
@@ -62,9 +56,7 @@
                     body: JSON.stringify(user)
                 });
                 const json = await response.json();
-                console.log(json)
                 if (!json) {
-                    console.log("no user found")
                     $('#error-message').css('color', 'red');
                     $('#error-message').text('Unvalid username or password');
                     $('#username').val("");

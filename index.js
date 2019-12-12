@@ -23,6 +23,11 @@ app.get('/loggedin', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/loggedin.html'));
 });
 
+// http://localhost:5000/flag
+app.get('/flag', async function (req, res) {
+  return res.sendFile(path.join(__dirname + '/flag.html'));
+});
+
 const getPlastics = async (username, password) => {
   const client = await MongoClient.connect(connectionString, {
     useNewUrlParser: true,
@@ -84,7 +89,6 @@ app.get('/api/gossip', async function (req, res) {
     next(e)
   }
 });
-
 
 // http://localhost:5000/api/gossip?name=bobby [GET]
 app.get('/api/gossip/name', async function (req, res) {
