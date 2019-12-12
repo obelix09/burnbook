@@ -56,14 +56,35 @@ app.post('/api/login', async function (req, res) {
 
 // http://localhost:5000/api/gossip [GET]
 app.get('/api/gossip', async function (req, res) {
-  var query = req.query
-  if (Object.keys(query)[0] == "name") {
-    console.log("well hello there")
-    const result = await burnbookService.getGossipByName(query.name);
-    return res.json(result);
+  try {
+    MongoClient.connect(connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }, async function (err, client) {
+      if (err) { throw new Error(err); }
+      const db = client.db('BurnBook');
+      var myPromise = () => {
+        return new Promise((resolve, reject) => {
+          db.collection('gossips')
+            .find({})
+            .toArray(function (err, data) {
+              if (err) { reject(err) }
+              else { resolve(data) }
+            });
+        });
+      };
+      var callMyPromise = async () => {
+        var result = await (myPromise());
+        return result;
+      };
+      callMyPromise().then(function (result) {
+        client.close();
+        res.json(result);
+      });
+    });
+  } catch (e) {
+    next(e)
   }
-  const result = await burnbookService.getAllGossip();
-  return res.json(result);
 });
 
 // http://localhost:5000/api/gossip [POST]
