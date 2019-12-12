@@ -28,6 +28,8 @@
             Password:<br>
             <input name="password" id="password">
             <input id="loginButton" value="Submit" type="button">
+            <p id="error-message"></p>
+            
         </form>
     </div>
     <script>
@@ -63,9 +65,12 @@
                 console.log(json)
                 if (!json) {
                     console.log("no user found")
+                    $('#error-message').css('color', 'red');
+                    $('#error-message').text('Unvalid username or password');
+                    $('#username').val("");
+                    $('#password').val("");
                 }
                 else {
-                    console.log("YAY")
                     window.location.replace("http://localhost:5000/loggedin");
                 }
             }
