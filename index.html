@@ -45,7 +45,7 @@
         </div>
         <script>
             $(document).ready(function() {
-                const Url = "http://localhost:5000/gossip"
+                const Url = "http://localhost:5000/api/gossip"
                 function getAllGossip() {
                     fetch(Url)
                     .then(data=>{return data.json()})

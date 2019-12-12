@@ -14,7 +14,6 @@
                 <img src="https://www.festivalclaca.cat/pics/b/17/173392_burn-book-png.png" width="120" height="120" class="d-inline-block align-top" alt="">
             </a>
         </nav>
-        <form>
             <div class="form-group">
                 <label>Username</label>
                 <input type="text" name="username" id="username" class="form-control" placeholder="Username">
@@ -25,11 +24,11 @@
             </div>
             <button id="loginButton" type="submit" class="btn btn-primary">Submit</button>
             <p id="error-message"></p>
-        </form>
     </div>
     <script>
         $(document).ready(function () {
             $("#loginButton").click(function() {
+                console.log("button clic")
                 var username = $('#username').val();
                 var password = $('#password').val();
                 if (username == "" || password == "") {
@@ -41,8 +40,9 @@
                 }
                 getRequest(user);
             });
-            const getRequest = async (user) => {
-                const response = await fetch('http://localhost:5000/login', {
+            async function getRequest(user) {
+                console.log("getrequest func")
+                const response = await fetch('http://localhost:5000/api/login', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -58,6 +58,7 @@
                     $('#password').val("");
                 }
                 else {
+                    console.log("Hello")
                     window.location.replace("http://localhost:5000/loggedin");
                 }
             }
