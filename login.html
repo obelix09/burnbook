@@ -24,12 +24,12 @@
                 <input type="password" name="password" id="password" class="form-control" placeholder="Password">
             </div>
             <button id="loginButton" type="submit" class="btn btn-primary">Submit</button>
+            <p id="error-message"></p>
         </form>
     </div>
     <script>
         $(document).ready(function () {
-
-            $("#loginButton").click(async function () {
+            $("#loginButton").click(function() {
                 var username = $('#username').val();
                 var password = $('#password').val();
                 if (username == "" || password == "") {
@@ -39,20 +39,37 @@
                     username: username,
                     password: password
                 }
-                let rawResponse;
-                    (async () => {
-                        rawResponse = await fetch('http://localhost:5000/api/login', {
-                            method: 'POST',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(user)
-                        });
-                        const content = rawResponse.json();
-                    })();
-            })
-        })
+                getRequest(user);
+
+                    // .then(function(response) {
+                    //     response.json();
+                    // }).then(function(data) {
+                    //     console.log(data);
+                    // });
+            });
+            const getRequest = async (user) => {
+                const response = await fetch('http://localhost:5000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                });
+                const json = await response.json();
+                console.log(json)
+                if (!json) {
+                    console.log("no user found")
+                    $('#error-message').css('color', 'red');
+                    $('#error-message').text('Unvalid username or password');
+                    $('#username').val("");
+                    $('#password').val("");
+                }
+                else {
+                    window.location.replace("http://localhost:5000/loggedin");
+                }
+            }
+        });
     </script>
 </body>
 

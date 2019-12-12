@@ -8,53 +8,47 @@ const connectionString = 'mongodb+srv://dbUser:xoxogossip@cluster0-xxx9b.mongodb
 
 app.use(bodyParser.json());
 
+// http://localhost:5000 
 app.get('/', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-// http://localhost:3000/api/login [GET]
-app.get('/api/login', async function (req, res) {
+// http://localhost:5000/login 
+app.get('/login', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/login.html'));
 });
 
-// http://localhost:5000/api/loggedin [GET]
-app.get('/api/loggedin', async function (req, res) {
+// http://localhost:5000/loggedin
+app.get('/loggedin', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/loggedin.html'));
 });
 
+const getPlastics = async (username, password) => {
+  const client = await MongoClient.connect(connectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+  
+  if (!client) {
+    return;
+  }
+  const db = client.db('BurnBook');
+  const plastics = db.collection('plastics');
+  let query = { username: username, password: password};
+  let res = await plastics.findOne(query);
+  if (!res) {
+    return null
+  }
+  let plastic = {username: res.username, password: res.password}
+  return plastic;
+}
+
 // http://localhost:5000/api/login [POST]
-app.post('/api/login', async function (req, res) {
+app.post('/api/login', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  try {
-    MongoClient.connect(connectionString, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    }, async function (err, client) {
-      if (err) { throw new Error(err); }
-      const db = client.db('BurnBook');
-      var myPromise = () => {
-        return new Promise((resolve, reject) => {
-          db.collection('plastics')
-            .find({ username: username, password: password })
-            .toArray(function (err, data) {
-              if (err) { reject(err) }
-              else { resolve(data) }
-            });
-        });
-      };
-      var callMyPromise = async () => {
-        var result = await (myPromise());
-        return result;
-      };
-      callMyPromise().then(function (result) {
-        client.close();
-        res.json(result);
-      });
-    });
-  } catch (e) {
-    next(e)
-  }
+  const plastic = await getPlastics(username, password)
+  return res.status(200).json(plastic);
 });
 
 // http://localhost:5000/api/gossip [GET]
