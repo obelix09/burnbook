@@ -112,7 +112,6 @@ app.get('/api/gossip/name', async function (req, res) {
       };
       var callMyPromise = async () => {
         var result = await (myPromise());
-        console.log(result);
         return result;
       };
       callMyPromise().then(function (result) {

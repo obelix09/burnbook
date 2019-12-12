@@ -2,51 +2,51 @@
 <html>
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <title>Burn Book</title>
-        <style>
-            .center {
-                margin: auto;
-                width: 60%;
-                padding: 100px;
-                text-align: center;
-            }
-            .huge {
-                font-size: 500%;
-            }
-            .login {
-                margin: auto;
-                text-align: right;
-            }
-        </style>
     </head>
     <body>
-        <div class="login">
-            <form action="http://localhost:5000/login/" method="get">
-                <input id="loginbutton" type="submit" value="Login">
-            </form>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="http://localhost:5000">
+                    <img src="https://www.festivalclaca.cat/pics/b/17/173392_burn-book-png.png" width="120" height="120" class="d-inline-block align-top" alt="">
+                </a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">BurnBook <span class="sr-only">(current)</span></a>
+                    </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0" action="http://localhost:5000/login" method="GET">
+                    <button class="btn btn-outline-secondary my-2 my-sm-0" id="loginbutton" type="submit">Login</button>
+                    </form>
+                </div>
+            </nav>
+                <div class="row">
+                    <div class="col">
+                        <input id="searchfield" name="name" class="form-control mr-sm-2" type="search" placeholder="Search by name" aria-label="Search">
+                    </div>
+                    <div class="col">
+                        <button id="searchbutton" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Name</th>
+                                <th>Gossip</th> 
+                            </tr>
+                        </thead>
+                        <tbody id="tablebody">
+                        </tbody>
+                    </table>
+                </div>
         </div>
-        <div class="center">
-            <img src="http://images.hellogiggles.com/uploads/2015/03/26/burnbook.jpg" alt="GreBoi">
-            <h3>Search by name</h3>
-            <input id="searchfield" type="search" name="name">
-            <input id="searchbutton" type="submit">
-            <table id="table" border="1">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Gossip</th> 
-                    </tr>
-                </thead>
-                <tbody id="tablebody">
-                </tbody>
-            </table>
-        </div>
-
         <script>
             $(document).ready(function() {
-                const Url = "http://localhost:5000/api/gossip"
+                const Url = "http://localhost:5000/gossip"
                 function getAllGossip() {
-                    console.log(Url);
                     fetch(Url)
                     .then(data=>{return data.json()})
                     .then(res=>{
