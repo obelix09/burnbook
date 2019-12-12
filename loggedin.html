@@ -56,7 +56,6 @@
                     fetch(Url)
                     .then(data=>{return data.json()})
                     .then(res=>{
-                        console.log(res);
                         for (var i = 0; i < res.length; i++) {
                             var tablerow = "<tr><td>" + res[i].name + "</td><td>" + res[i].gossip + "</td><td>" + res[i].author + "</td></tr>";
                             $('#tablebody').append(tablerow);
@@ -70,7 +69,6 @@
                         return
                     }
                     Urlstring = Url + "/name?name=" + searchValue;
-                    console.log(Urlstring)
                     fetch(Urlstring)
                     .then(data=>{return data.json()})
                     .then(res=>{

@@ -50,7 +50,6 @@ const getPlastics = async (username, password) => {
 
 // http://localhost:5000/api/login [POST]
 app.post('/api/login', async (req, res) => {
-  console.log("login api")
   const username = req.body.username;
   const password = req.body.password;
   const plastic = await getPlastics(username, password)
