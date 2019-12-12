@@ -12,14 +12,14 @@ const burnbookService = () => {
         const connection = MongoClient.connect(connectionString, {
             useNewUrlParser: true,
             useUnifiedTopology: true
-        },function(err, client) {
-            if(err) {throw new Error(err);}
+        }, function (err, client) {
+            if (err) { throw new Error(err); }
             const db = client.db('BurnBook');
             const gossips = db.collection('gossips')
-            gossips.find(query).toArray(function(err,items){
+            gossips.find(query).toArray(function (err, items) {
                 if (err) { throw new Error(err); }
-              console.log(items);
-              result = items;
+                console.log(items);
+                result = items;
             });
             client.close();
         });
@@ -33,12 +33,12 @@ const burnbookService = () => {
         const connection = MongoClient.connect(connectionString, {
             useNewUrlParser: true,
             useUnifiedTopology: true
-        }, function(err, client) {
-            if(err) {throw new Error(err);}
+        }, function (err, client) {
+            if (err) { throw new Error(err); }
             const db = client.db('BurnBook');
             gossips = db.collection('gossips')
-            gossips.find({}).toArray(function(err, items) {
-                if(err) {throw new Error(err); }
+            gossips.find({}).toArray(function (err, items) {
+                if (err) { throw new Error(err); }
                 console.log("*** ITEMS: **** " + items);
             });
             client.close();
@@ -47,7 +47,7 @@ const burnbookService = () => {
         return gossips;
     }
 
-    return { 
+    return {
         getGossipByName,
         getAllGossip
     };
