@@ -86,7 +86,7 @@ app.get('/api/gossip', async function (req, res) {
 });
 
 
-// http://localhost:5000/api/gossip?name=bobby [GET]
+// http://localhost:5000/api/gossip/name?name=bobby [GET]
 app.get('/api/gossip/name', async function (req, res) {
   const name = req.query.name;
   try {
@@ -108,7 +108,6 @@ app.get('/api/gossip/name', async function (req, res) {
       };
       var callMyPromise = async () => {
         var result = await (myPromise());
-        console.log(result);
         return result;
       };
       callMyPromise().then(function (result) {
