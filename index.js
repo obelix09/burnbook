@@ -12,8 +12,8 @@ app.get('/', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-// http://localhost:3000/api/login [GET]
-app.get('/api/login', async function (req, res) {
+// http://localhost:5000/login [GET]
+app.get('/login', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/login.html'));
 });
 
@@ -24,34 +24,32 @@ app.get('/api/loggedin', async function (req, res) {
 
 // http://localhost:5000/api/login [POST]
 app.post('/api/login', async function (req, res) {
-  const username = req.body.username;
-  const password = req.body.password;
+  const dbusername = req.body.username;
+  const dbpassword = req.body.password;
+  console.log(dbusername)
+  console.log(dbpassword)
   try {
     MongoClient.connect(connectionString, {
       useNewUrlParser: true,
       useUnifiedTopology: true
-    }, async function (err, client) {
-      if (err) { throw new Error(err); }
-      const db = client.db('BurnBook');
-      var myPromise = () => {
-        return new Promise((resolve, reject) => {
-          db.collection('plastics')
-            .find({ username: username, password: password })
-            .toArray(function (err, data) {
-              if (err) { reject(err) }
-              else { resolve(data) }
-            });
+    }, (err, client) => {
+        if (err) { console.log("ohno error"); }
+        const db = client.db('BurnBook');
+        const plastics = db.collection('plastics');
+
+        return plastics.findOne({ username: dbusername, password: dbpassword }, (err, result) => {
+          if (err) {
+            console.log(err);
+            client.close();
+            return err
+          }
+          else {
+            console.log(result)
+            client.close();
+            return result
+          }
         });
-      };
-      var callMyPromise = async () => {
-        var result = await (myPromise());
-        return result;
-      };
-      callMyPromise().then(function (result) {
-        client.close();
-        res.json(result);
-      });
-    });
+    }); 
   } catch (e) {
     next(e)
   }
