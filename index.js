@@ -22,37 +22,32 @@ app.get('/api/loggedin', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/loggedin.html'));
 });
 
-// http://localhost:5000/api/login [POST]
-app.post('/api/login', async function (req, res) {
-  const dbusername = req.body.username;
-  const dbpassword = req.body.password;
-  console.log(dbusername)
-  console.log(dbpassword)
-  try {
-    MongoClient.connect(connectionString, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    }, (err, client) => {
-        if (err) { console.log("ohno error"); }
-        const db = client.db('BurnBook');
-        const plastics = db.collection('plastics');
-
-        return plastics.findOne({ username: dbusername, password: dbpassword }, (err, result) => {
-          if (err) {
-            console.log(err);
-            client.close();
-            return err
-          }
-          else {
-            console.log(result)
-            client.close();
-            return result
-          }
-        });
-    }); 
-  } catch (e) {
-    next(e)
+const getPlastics = async (username, password) => {
+  const client = await MongoClient.connect(connectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+  
+  if (!client) {
+    return;
   }
+  const db = client.db('BurnBook');
+  const plastics = db.collection('plastics');
+  let query = { username: username, password: password};
+  let res = await plastics.findOne(query);
+  console.log(res);
+  return res;
+}
+
+// http://localhost:5000/api/login [POST]
+app.post('/api/login', async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log(username)
+  console.log(password)
+
+  const plastic = await getPlastics(username, password)
+  return res.status(200).json(plastic);
 });
 
 // http://localhost:5000/api/gossip [GET]
