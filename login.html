@@ -53,9 +53,7 @@
                             },
                             body: JSON.stringify(user)
                         });
-                        const content = await rawResponse.json();
-
-                        console.log(content);
+                        const content = rawResponse.json();
                     })();
             })
         })
