@@ -46,6 +46,7 @@
             $(document).ready(function() {
                 const Url = "http://localhost:5000/api/gossip"
                 function getAllGossip() {
+                    console.log(Url);
                     fetch(Url)
                     .then(data=>{return data.json()})
                     .then(res=>{
@@ -56,13 +57,12 @@
                     })
                 }
 
-                $("#searchbutton").click(async function() {
+                $("#searchbutton").click(function() {
                     searchValue = $('#searchfield').val();
                     if (searchValue == "") {
                         return
                     }
-                    Urlstring = Url + "?name=" + searchValue;
-                    console.log(Urlstring)
+                    Urlstring = Url + "/name?name=" + searchValue;
                     fetch(Urlstring)
                     .then(data=>{return data.json()})
                     .then(res=>{

@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const burnbookService = require('./services/burnbookService');
 const path = require('path');
 const mongoDb = require('mongodb');
 const MongoClient = mongoDb.MongoClient;
@@ -9,7 +8,6 @@ const connectionString = 'mongodb+srv://dbUser:xoxogossip@cluster0-xxx9b.mongodb
 
 app.use(bodyParser.json());
 
-//HTML random nickname site
 app.get('/', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/index.html'));
 });
@@ -61,6 +59,7 @@ app.post('/api/login', async function (req, res) {
 
 // http://localhost:5000/api/gossip [GET]
 app.get('/api/gossip', async function (req, res) {
+  const name = req.query.name;
   try {
     MongoClient.connect(connectionString, {
       useNewUrlParser: true,
@@ -80,6 +79,42 @@ app.get('/api/gossip', async function (req, res) {
       };
       var callMyPromise = async () => {
         var result = await (myPromise());
+        return result;
+      };
+      callMyPromise().then(function (result) {
+        client.close();
+        res.json(result);
+      });
+    });
+  } catch (e) {
+    next(e)
+  }
+});
+
+
+// http://localhost:5000/api/gossip?name=bobby [GET]
+app.get('/api/gossip/name', async function (req, res) {
+  const name = req.query.name;
+  try {
+    MongoClient.connect(connectionString, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }, async function (err, client) {
+      if (err) { throw new Error(err); }
+      const db = client.db('BurnBook');
+      var myPromise = () => {
+        return new Promise((resolve, reject) => {
+          db.collection('gossips')
+            .find({ name: name })
+            .toArray(function (err, data) {
+              if (err) { reject(err) }
+              else { resolve(data) }
+            });
+        });
+      };
+      var callMyPromise = async () => {
+        var result = await (myPromise());
+        console.log(result);
         return result;
       };
       callMyPromise().then(function (result) {
