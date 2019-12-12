@@ -8,17 +8,18 @@ const connectionString = 'mongodb+srv://dbUser:xoxogossip@cluster0-xxx9b.mongodb
 
 app.use(bodyParser.json());
 
+// http://localhost:5000 
 app.get('/', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-// http://localhost:5000/login [GET]
+// http://localhost:5000/login 
 app.get('/login', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/login.html'));
 });
 
-// http://localhost:5000/api/loggedin [GET]
-app.get('/api/loggedin', async function (req, res) {
+// http://localhost:5000/loggedin
+app.get('/loggedin', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/loggedin.html'));
 });
 
@@ -35,17 +36,17 @@ const getPlastics = async (username, password) => {
   const plastics = db.collection('plastics');
   let query = { username: username, password: password};
   let res = await plastics.findOne(query);
-  console.log(res);
-  return res;
+  if (!res) {
+    return null
+  }
+  let plastic = {username: res.username, password: res.password}
+  return plastic;
 }
 
 // http://localhost:5000/api/login [POST]
 app.post('/api/login', async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  console.log(username)
-  console.log(password)
-
   const plastic = await getPlastics(username, password)
   return res.status(200).json(plastic);
 });
