@@ -19,6 +19,11 @@ app.get('/api/login', async function (req, res) {
   return res.sendFile(path.join(__dirname + '/login.html'));
 });
 
+// http://localhost:5000/api/loggedin [GET]
+app.get('/api/loggedin', async function (req, res) {
+  return res.sendFile(path.join(__dirname + '/loggedin.html'));
+});
+
 // http://localhost:5000/api/login [POST]
 app.post('/api/login', async function (req, res) {
   const username = req.body.username;

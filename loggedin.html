@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <title>Burn Book</title>
+        <style>
+            .center {
+                margin: auto;
+                width: 60%;
+                padding: 100px;
+                text-align: center;
+            }
+            .huge {
+                font-size: 500%;
+            }
+            .login {
+                margin: auto;
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login">
+            <form action="http://localhost:5000/api/login" method="get">
+                <input id="loginbutton" type="submit" value="Login">
+            </form>
+        </div>
+        <div class="center">
+            <img src="http://images.hellogiggles.com/uploads/2015/03/26/burnbook.jpg" alt="GreBoi">
+            <h3>Search by name</h3>
+            <input id="searchfield" type="search" name="name">
+            <input id="searchbutton" type="submit">
+            <table id="table" border="1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Gossip</th> 
+                        <th>Author</th>
+                    </tr>
+                </thead>
+                <tbody id="tablebody">
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                const Url = "http://localhost:5000/api/gossip"
+                function getAllGossip() {
+                    fetch(Url)
+                    .then(data=>{return data.json()})
+                    .then(res=>{
+                        console.log(res);
+                        for (var i = 0; i < res.length; i++) {
+                            var tablerow = "<tr><td>" + res[i].name + "</td><td>" + res[i].gossip + "</td><td>" + res[i].author + "</td></tr>";
+                            $('#tablebody').append(tablerow);
+                        } 
+                    })
+                }
+
+                $("#searchbutton").click(async function() {
+                    searchValue = $('#searchfield').val();
+                    if (searchValue == "") {
+                        return
+                    }
+                    Urlstring = Url + "?name=" + searchValue;
+                    console.log(Urlstring)
+                    fetch(Urlstring)
+                    .then(data=>{return data.json()})
+                    .then(res=>{
+                        $("#tablebody").empty();
+                        for (var i = 0; i < res.length; i++) {
+                            var tablerow = "<tr><td>" + res[i].name + "</td><td>" + res[i].gossip + "</td><td>" + res[i].author + "</td></tr>";
+                            $('#tablebody').append(tablerow);
+                        } 
+                    })
+                    searchValue = $('#searchfield').val("");
+                })
+                getAllGossip()
+            })
+        </script>
+    </body>
+</html>
